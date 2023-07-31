@@ -68,4 +68,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float CloseDelay = 3;
+
+	//test comment
 };
