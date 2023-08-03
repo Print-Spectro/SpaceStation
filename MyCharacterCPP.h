@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputAction.h"
+#include "InputActionValue.h"
 #include "MyCharacterCPP.generated.h"
 
 
@@ -22,6 +23,8 @@ protected:
 	virtual void BeginPlay() override;
 
 
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -33,20 +36,21 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 	class UInputMappingContext* InputMapping;
-#pragma endregion
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	class UMyInputConfigData* InputActions;
+
+	//Handle move input
+	void Move(const FInputActionValue& Value);
+
+	//Handle Look input 
+	void Look(const FInputActionValue& Value);
+
+	//Handle Jump input 
+	void Jump(const FInputActionValue& Value);
+
+	//Handle interact input
+	void Interact(const FInputActionValue& Value);
+
 };
 
-//Store pointer to Input Action for native binding
-UCLASS()
-class SPACESTATION_API UMyInputConfigData : public UDataAsset 
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* InputMove;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* InputLook;
-};
