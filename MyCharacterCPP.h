@@ -40,17 +40,22 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	class UMyInputConfigData* InputActions;
 
+	UFUNCTION(BlueprintCallable)
+	AActor* GetClosestInteractable();
+
 	//Handle move input
 	void Move(const FInputActionValue& Value);
 
 	//Handle Look input 
 	void Look(const FInputActionValue& Value);
 
-	//Handle Jump input 
-	void Jump(const FInputActionValue& Value);
-
 	//Handle interact input
 	void Interact(const FInputActionValue& Value);
 
+	//Handle Jump input 
+	//void Jump(const FInputActionValue& Value);
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Meshes", meta = (AllowPrivateAccess = "true"))
+	class USphereComponent* CollisionSphere;
 };
 
