@@ -6,8 +6,14 @@
 #include "GameFramework/Character.h"
 #include "InputAction.h"
 #include "InputActionValue.h"
+#include "Curves/CurveFloat.h"
 #include "MyCharacterCPP.generated.h"
 
+
+/* 
+Custom class that handles movement and interaction
+
+*/
 
 UCLASS()
 class SPACESTATION_API AMyCharacterCPP : public ACharacter
@@ -31,6 +37,16 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	//UPROPERTY(BlueprintReadWrite)
+	//UTimelineComponent* MyTimeline;
+
+	UPROPERTY(EditAnywhere, Category = "Curve")
+	UCurveFloat* MyCurve;
+
+	float CurveValue;
+
+
 
 #pragma region /** Input */
 protected:

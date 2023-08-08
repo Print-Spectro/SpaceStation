@@ -6,16 +6,31 @@
 #include <EnhancedInputComponent.h>
 #include <EnhancedInputSubsystems.h>
 #include "EnhancedInput/Public/EnhancedInputComponent.h"
+#include "UObject/ConstructorHelpers.h"
 #include "MyInputConfigData.h"
 
 // Sets default values
 AMyCharacterCPP::AMyCharacterCPP()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
 	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere")); //creating a collision sphere
 	CollisionSphere->SetupAttachment(GetMesh()); //connect collision sphere to character mesh
+
+	static ConstructorHelpers::FObjectFinder<UCurveFloat> Curve(TEXT("/Game/InputActors/CurveTest"));
+
+
+	check(Curve.Succeeded());
+
+	
+	if (Curve.Succeeded()) {
+		MyCurve = Curve.Object;
+		CurveValue = MyCurve->GetFloatValue(0.1f);
+
+	}
+
+
+	
 }
 
 // Called when the game starts or when spawned

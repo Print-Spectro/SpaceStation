@@ -10,13 +10,14 @@ ADoor::ADoor()
 	PrimaryActorTick.bCanEverTick = true;
 	BaseMeshComp = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("BaseMesh"));
 	RootComponent = BaseMeshComp;
+	//binding function to a timer so that the door can automoatically close
 	CloseTimer.BindLambda([&]
-	{
-		if (ShouldClose) {
-			ToggleMove();
-		}
-			
-	});
+		{
+			if (ShouldClose) {
+				ToggleMove();
+			}
+
+		});
 	
 }
 
@@ -49,7 +50,10 @@ void ADoor::Tick(float DeltaTime)
 			if (CurrentLocation == EndLocation)
 			{
 				ShouldClose = true;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, CloseTimer, CloseDelay, false);
+				//starting timer for the door to automatically close if left open
+				if (!GetWorld()->GetTimerManager().IsTimerActive(TimerHandle)) {
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle, CloseTimer, CloseDelay, false);
+				}
 			}
 
 		}
@@ -63,14 +67,19 @@ void ADoor::SetShouldMove(bool SetMove)
 
 
 void ADoor::ToggleMove()
-{
+/*
+Swaps the direction of the door, also causes the door to move if stationary
+*/
+{	
+	
 	MoveDirection = !MoveDirection;
 	SetShouldMove(true);
 	ADoor::SetMoveDirection(MoveDirection);
 }
 
 void ADoor::SetMoveDirection(bool Direction)
-{
+{	
+	//Use to define the target location for the door to move to
 	if (Direction) {
 		TargetLocation = EndLocation;
 	}
@@ -78,4 +87,6 @@ void ADoor::SetMoveDirection(bool Direction)
 		TargetLocation = StartLocation;
 	}
 }
+
+
 
